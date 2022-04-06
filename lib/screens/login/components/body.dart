@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:catalogapp/size_config.dart';
+import 'package:catalogapp/utils/routes.dart';
 import 'package:flutter/material.dart';
 
 import 'land.dart';
@@ -85,37 +86,49 @@ class _BodyState extends State<Body> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  VerticalSpacing(of: 50),
-                  Tabs(
-                    press: (value) {
-                      changeMood(value);
-                    },
-                  ),
-                  VerticalSpacing(),
-                  Text(
-                    "Good Morning",
-                    style: Theme.of(context).textTheme.headline3.copyWith(
-                        fontWeight: FontWeight.bold, color: Colors.white),
-                  ),
-                  VerticalSpacing(of: 10),
-                  Text(
-                    "Enter your Informations below",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  VerticalSpacing(of: 30),
-                  RoundedTextField(
-                    initialValue: "ourdemo@email.com",
-                    hintText: "Email",
-                  ),
-                  VerticalSpacing(),
-                  RoundedTextField(
-                    initialValue: "XXXXXXX",
-                    hintText: "Password",
-                  ),
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    VerticalSpacing(of: 50),
+                    Tabs(
+                      press: (value) {
+                        changeMood(value);
+                      },
+                    ),
+                    VerticalSpacing(),
+                    Text(
+                      "Good Morning",
+                      style: Theme.of(context).textTheme.headline3.copyWith(
+                          fontWeight: FontWeight.bold, color: Colors.white),
+                    ),
+                    VerticalSpacing(of: 10),
+                    Text(
+                      "Enter your Informations below",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    VerticalSpacing(of: 30),
+                    RoundedTextField(
+                      initialValue: "ourdemo@email.com",
+                      hintText: "Email",
+                    ),
+                    VerticalSpacing(),
+                    RoundedTextField(
+                      initialValue: "XXXXXXX",
+                      hintText: "Password",
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, MyRoutes.homeRoute);
+                      },
+                      child: Text("Login"),
+                      style: TextButton.styleFrom(minimumSize: Size(150, 40)),
+                    )
+                  ],
+                ),
               ),
             ),
           )

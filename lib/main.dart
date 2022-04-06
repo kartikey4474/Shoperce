@@ -1,8 +1,8 @@
+import 'package:catalogapp/home_page.dart';
+import 'package:catalogapp/utils/routes.dart';
 import 'package:flutter/material.dart';
 
 import 'screens/login/login_screen.dart';
-
-
 
 void main() {
   runApp(MyApp());
@@ -18,7 +18,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: LoginScreen(),
+      debugShowCheckedModeBanner: false,
+      initialRoute: "/",
+      routes: {
+        "/": (context) => LoginScreen(),
+        MyRoutes.homeRoute: (context) => HomePage(),
+        MyRoutes.loginRoute: (context) => LoginScreen(),
+      },
     );
   }
 }
