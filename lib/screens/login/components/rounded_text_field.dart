@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:catalogapp/size_config.dart';
 
-class RoundedTextField extends StatelessWidget {
+class RoundedTextField extends StatefulWidget {
   const RoundedTextField({
     Key key,
     this.initialValue,
@@ -12,12 +12,19 @@ class RoundedTextField extends StatelessWidget {
   final String initialValue, hintText;
 
   @override
+  State<RoundedTextField> createState() => _RoundedTextFieldState();
+}
+
+class _RoundedTextFieldState extends State<RoundedTextField> {
+  @override
   Widget build(BuildContext context) {
+    String isName = "";
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          hintText,
+          widget.hintText,
           style: TextStyle(color: Colors.white60),
         ),
         VerticalSpacing(of: 10),
@@ -32,8 +39,12 @@ class RoundedTextField extends StatelessWidget {
             ),
           ),
           child: TextField(
+            onChanged: (context) {
+              isName = context;
+            },
+            
             style: TextStyle(color: Colors.white),
-            controller: TextEditingController(text: initialValue),
+            controller: TextEditingController(text: widget.initialValue),
             decoration: InputDecoration(
               enabledBorder: InputBorder.none,
               focusedBorder: InputBorder.none,

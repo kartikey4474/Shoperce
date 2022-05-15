@@ -15,9 +15,26 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  String name = "";
+  bool changeButton = false;
   bool isFullSun = false;
   bool isDayMood = true;
   Duration _duration = Duration(seconds: 1);
+
+  final _formKey = GlobalKey<FormState>();
+
+  moveToHome(BuildContext) async {
+    if (_formKey.currentState.validate()) {
+      setState(() {
+        changeButton = true;
+      });
+      await Future.delayed(Duration(seconds: 1));
+      await Navigator.pushNamed(context, MyRoutes.homeRoute);
+      setState(() {
+        changeButton = false;
+      });
+    }
+  }
 
   @override
   void initState() {
@@ -87,47 +104,100 @@ class _BodyState extends State<Body> {
             padding: EdgeInsets.symmetric(horizontal: 20),
             child: SafeArea(
               child: SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    VerticalSpacing(of: 50),
-                    Tabs(
-                      press: (value) {
-                        changeMood(value);
-                      },
-                    ),
-                    VerticalSpacing(),
-                    Text(
-                      "Good Morning",
-                      style: Theme.of(context).textTheme.headline3.copyWith(
-                          fontWeight: FontWeight.bold, color: Colors.white),
-                    ),
-                    VerticalSpacing(of: 10),
-                    Text(
-                      "Enter your Informations below",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    VerticalSpacing(of: 30),
-                    RoundedTextField(
-                      initialValue: "ourdemo@email.com",
-                      hintText: "Email",
-                    ),
-                    VerticalSpacing(),
-                    RoundedTextField(
-                      initialValue: "XXXXXXX",
-                      hintText: "Password",
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, MyRoutes.homeRoute);
-                      },
-                      child: Text("Login"),
-                      style: TextButton.styleFrom(minimumSize: Size(150, 40)),
-                    )
-                  ],
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      VerticalSpacing(of: 50),
+                      Tabs(
+                        press: (value) {
+                          changeMood(value);
+                        },
+                      ),
+                      VerticalSpacing(),
+                      Text(
+                        "Good Morning",
+                        style: Theme.of(context).textTheme.headline3.copyWith(
+                            fontWeight: FontWeight.bold, color: Colors.white),
+                      ),
+                      VerticalSpacing(of: 10),
+                      Text(
+                        "kartikey",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      VerticalSpacing(of: 30),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          hintText: "Enter username",
+                          labelText: "Username",
+                        ),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return "Username cannot be empty";
+                          }
+
+                          return null;
+                        },
+                        onChanged: (value) {
+                          name = value;
+                          setState(() {});
+                        },
+                      ),
+                      TextFormField(
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          hintText: "Enter password",
+                          labelText: "Password",
+                        ),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return "Password cannot be empty";
+                          } else if (value.length < 6) {
+                            return "Password length should be atleast 6";
+                          }
+
+                          return null;
+                        },
+                      ),
+                      SizedBox(
+                        height: 40,
+                      ),
+                      InkWell(
+                        onTap: () => moveToHome(BuildContext),
+                        child: AnimatedContainer(
+                          duration: Duration(seconds: 1),
+                          width: changeButton ? 50 : 150,
+                          height: 50,
+                          alignment: Alignment.center,
+                          child: changeButton
+                              ? Icon(
+                                  Icons.done,
+                                  color: Colors.white,
+                                )
+                              : Text(
+                                  "Login",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                ),
+                          decoration: BoxDecoration(
+                            color: Colors.deepPurple,
+                            borderRadius:
+                                BorderRadius.circular(changeButton ? 50 : 8),
+                          ),
+                        ),
+                      ),
+                      // ElevatedButton(
+                      //   onPressed: () {
+                      //     Navigator.pushNamed(context, MyRoutes.homeRoute);
+                      //   },
+                      //   child: Text("Login"),
+                      //   style: TextButton.styleFrom(minimumSize: Size(150, 40)),
+                      // )
+                    ],
+                  ),
                 ),
               ),
             ),
